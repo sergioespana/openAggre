@@ -36,6 +36,7 @@ def write():
     columns = ["dataid","rule","value","parameterid"]
     # Get all the alterations that are going to be done
     alterations = pd.DataFrame(columns = columns)
+    data = db.selectallfrom("data")
     
     parameters = get_indicators()
     if st.button("Validate!"):
@@ -43,7 +44,7 @@ def write():
             realid = parameters[i][0]
             parameteriddf = db.selectfromwhere("realid,fk_methodid,parameterid","parameter","realid = ? and fk_methodid = ?",(realid,int(currentMethod),))
             parameterid = parameteriddf['parameterid'].iloc[0]
-            data = db.selectallfrom("data")
+            
             datadf = data[data['fk_parameterid'] == parameterid]
             datadf = datadf[datadf['isActive'] == 1]
             
