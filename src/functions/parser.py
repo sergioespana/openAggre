@@ -28,7 +28,7 @@ def computeInds(indicators):
             formula = indicators['formula'].iloc[j]
             parameterid = indicators['fk_parameterid'].iloc[j]
             try:
-                value = calculateIndicator(data,orgid,formula)
+                value = calculateIndicator(orgid,formula)
             except:
                 value = "nan"
                 errorList.append((orgid,parameterid))
@@ -39,7 +39,7 @@ def computeInds(indicators):
             else:
                 db.insertvaluessingle("data(value,year,version,isActive,fk_parameterid,fk_projectid,fk_organisationid)","(?,?,?,?,?,?,?)",(value,2019,"1.0",1,int(parameterid),int(currentProject),int(orgid)))
     
-def calculateIndicator(data,orgid,formula):
+def calculateIndicator(orgid,formula):
     data = getData()
     df = data[data['fk_organisationid'] == orgid]
     result = indparse.computeValue(formula,df)
