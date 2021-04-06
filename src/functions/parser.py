@@ -20,7 +20,6 @@ def computeInds(indicators):
     organisations = db.selectallfrom("organisation")
     organisations = organisations[organisations['fk_projectid'] == currentProject]
     errorList = [(0,0)]
-    data = getData()
     for i in range(len(organisations)):
         orgid = organisations['organisationid'].iloc[i]
         print("Current organisation: " + str(orgid) + " - " + str(i) + " of " + str(len(organisations)))
@@ -41,6 +40,7 @@ def computeInds(indicators):
                 db.insertvaluessingle("data(value,year,version,isActive,fk_parameterid,fk_projectid,fk_organisationid)","(?,?,?,?,?,?,?)",(value,2019,"1.0",1,int(parameterid),int(currentProject),int(orgid)))
     
 def calculateIndicator(data,orgid,formula):
+    data = getData()
     df = data[data['fk_organisationid'] == orgid]
     result = indparse.computeValue(formula,df)
 
