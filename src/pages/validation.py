@@ -7,14 +7,19 @@ from oauth2client.service_account import ServiceAccountCredentials
 import src.db.database as db
 import src.functions.valparse as valparse
 import streamlit.components.v1 as components
+import os
 
 projects = db.selectallfrom("project")
 currentProject = projects[projects['currentProject'] == 1]['projectid'].iloc[0]
 currentMethod = projects[projects['currentProject'] == 1]['fk_methodid'].iloc[0]
 
-_selectable_data_table = components.declare_component(
-    "selectable_data_table", url="http://localhost:3001",
-    )
+parent_dir = os.path.dirname(os.path.abspath("openAggre"))
+build_dir = os.path.join(parent_dir,"build")
+_selectable_data_table = components.declare_component("selectable_data_table",path= build_dir)
+
+# _selectable_data_table = components.declare_component(
+#     "selectable_data_table", url="http://localhost:3001",
+#     )
 
 def selectable_data_table(data, key=None):
     return _selectable_data_table(data=data, default=[], key=key)
@@ -36,7 +41,6 @@ def write():
     columns = ["dataid","rule","value","parameterid"]
     # Get all the alterations that are going to be done
     alterations = pd.DataFrame(columns = columns)
-    data = db.selectallfrom("data")
     
     parameters = get_indicators()
     if st.button("Validate!"):
@@ -44,7 +48,7 @@ def write():
             realid = parameters[i][0]
             parameteriddf = db.selectfromwhere("realid,fk_methodid,parameterid","parameter","realid = ? and fk_methodid = ?",(realid,int(currentMethod),))
             parameterid = parameteriddf['parameterid'].iloc[0]
-            
+            data = db.selectallfrom("data")
             datadf = data[data['fk_parameterid'] == parameterid]
             datadf = datadf[datadf['isActive'] == 1]
             

@@ -6,14 +6,16 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import src.db.database as db
 import streamlit.components.v1 as components
+import os
 
 projects = db.selectallfrom("project")
 currentProject = projects[projects['currentProject'] == 1]['projectid'].iloc[0]
 currentMethod = projects[projects['currentProject'] == 1]['fk_methodid'].iloc[0]
 
-_selectable_data_table = components.declare_component(
-    "selectable_data_table", url="http://localhost:3001",
-    )
+parent_dir = os.path.dirname(os.path.abspath("openAggre"))
+build_dir = os.path.join(parent_dir,"build")
+_selectable_data_table = components.declare_component("selectable_data_table",path= build_dir)
+
 
 def selectable_data_table(data, key=None):
     return _selectable_data_table(data=data, default=[], key=key)
