@@ -341,7 +341,7 @@ def write():
             aggregations.append(tempAggregation)
 
             st.write(tempAggregation.figure)
-            writeimages.savePNG(tempAggregation)
+            #writeimages.savePNG(tempAggregation)
 
     
 

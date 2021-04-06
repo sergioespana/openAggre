@@ -20,4 +20,4 @@
 - pip3 install mariadb
 - pip3 install plotly
 - pip3 install bokeh
-
+- pip3 install psutil
