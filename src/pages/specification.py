@@ -12,11 +12,13 @@ import json
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+#from streamlit.ScriptRunner import RerunException
 import src.db.database as db
 import src.functions.parser as parser
 import src.functions.aggparse as aggparse
 import src.functions.writeimages as writeimages
 
+#parser.calculateAggregation("2019",1,"popsum({ind1})")
 
 projects = db.selectallfrom("project")
 currentProject = projects[projects['currentProject'] == 1]['projectid'].iloc[0]
@@ -118,6 +120,7 @@ class Aggregation():
 
             fig = go.Figure(data=[go.Table(header=header,cells=cells)])
             fig.update_layout(title = title)
+            #fig.Table.update_layout(fill_color = 'paleturquoise')
 
         else:
             return
@@ -159,7 +162,7 @@ class Aggregation():
                             popOrgList.append(tempOrg)
                         tempDF = rawData[rawData['year'] == str(year)]
                         tempDF = tempDF[tempDF['fk_organisationid'].isin(popOrgList)]
-                        
+                        #st.write(tempDF)
 
                         #### Calculate the value based on year, pop and var(formula)
                     
@@ -201,7 +204,7 @@ class Aggregation():
                             popOrgList.append(tempOrg)
                         tempDF = rawData[rawData['year'] == str(year)]
                         tempDF = tempDF[tempDF['fk_organisationid'].isin(popOrgList)]
-                        
+                        #st.write(tempDF)
 
                         #### Calculate the value based on year, pop and var(formula)
                         result = aggparse.interpret(var,tempDF)
@@ -243,7 +246,7 @@ class Aggregation():
                             popOrgList.append(tempOrg)
                         tempDF = rawData[rawData['year'] == str(year)]
                         tempDF = tempDF[tempDF['fk_organisationid'].isin(popOrgList)]
-                        
+                        #st.write(tempDF)
 
                         #### Calculate the value based on year, pop and var(formula)
                         result = aggparse.interpret(var,tempDF)
@@ -297,7 +300,7 @@ class Aggregation():
         return result        
 
     def parsePeriod(self,variable):
-        currentyeardf = db.selectfromwhere("projectid,currentYear","project","projectid = ?",(int(currentProject),))
+        currentyeardf = db.selectfromwhere("projectid,currentYear","project","projectid = ?",(7,))
         currentyear = currentyeardf['currentYear'].iloc[0]
         result = []
         if '{' in variable:
@@ -341,7 +344,7 @@ def write():
             aggregations.append(tempAggregation)
 
             st.write(tempAggregation.figure)
-            #writeimages.savePNG(tempAggregation)
+            writeimages.savePNG(tempAggregation)
 
     
 
