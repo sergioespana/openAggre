@@ -1,6 +1,8 @@
 # openAggre
 An open-source authoring tool for aggregated ethical, social and environmental accounting reports.
 
+This project is steered by University of Utrecht. We welcome collaboration with organisations and individuals.
+
 # Ubuntu 20.04
 - git clone https://github.com/sergioespana/openAggre.git
 # Mariadb
