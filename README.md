@@ -1,4 +1,5 @@
 # openAggre
+An open-source authoring tool for aggregated ethical, social and environmental accounting reports.
 
 # Ubuntu 20.04
 - git clone https://github.com/sergioespana/openAggre.git
