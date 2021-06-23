@@ -40,7 +40,6 @@ def newProject(projectName, projectYear, aggMethodName, aggMethodDesc):
     changeCurrentProject(projectid)
 
     templates = db.selectallfrom("template")
-    templates = templates[templates['fk_projectid'] == 8]
 
     tempTable = templates[templates['vistype']== "table"]['templateDict'].iloc[0]
     tempCat = templates[templates['vistype']== "categories"]['templateDict'].iloc[0]

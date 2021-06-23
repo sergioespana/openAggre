@@ -300,7 +300,7 @@ class Aggregation():
         return result        
 
     def parsePeriod(self,variable):
-        currentyeardf = db.selectfromwhere("projectid,currentYear","project","projectid = ?",(7,))
+        currentyeardf = db.selectfromwhere("projectid,currentYear","project","projectid = ?",(int(currentProject),))
         currentyear = currentyeardf['currentYear'].iloc[0]
         result = []
         if '{' in variable:
@@ -344,7 +344,7 @@ def write():
             aggregations.append(tempAggregation)
 
             st.write(tempAggregation.figure)
-            writeimages.savePNG(tempAggregation)
+            #writeimages.savePNG(tempAggregation)
 
     
 

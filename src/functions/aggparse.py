@@ -29,12 +29,13 @@ def interpret(formula,df):
         return(interpret(formula[1:],df))
     elif ')' in formula:
         return betweenParantheses(0,0,formula,0,formula,df) 
-    elif re.match(r'\A0?.?(\d+)\Z',formula): #Pass numerical value as numerical value for calculation
-        return eval(formula)
     elif re.match(r'\Aind(\d+)[a-z]{0,1}\Z',formula): #Identify indicator parameter
         return getParameterid(formula)
     elif re.match(r'\Aq(\d+)[a-z]{0,1}\Z',formula): #Identify question parameter
         return getParameterid(formula)
+    elif re.match(r'\A0?.?(\d+)\Z',formula): #Pass numerical value as numerical value for calculation
+        return eval(formula)
+    
     else: #Multi component formula that must be recursively split into concrete components
         if '+' in formula or '-' in formula:
             components = re.compile(r'[\+\-]').split(formula)
